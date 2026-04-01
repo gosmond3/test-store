@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ironclad Outdoor Co.</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1a1a1a; background: #fff; }
+
+    /* NAV */
+    nav {
+      background: #1a1a1a;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { background: #e63946; color: #fff; border: none; padding: 8px 20px; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+
+    /* ANNOUNCEMENT BAR */
+    .announcement-bar {
+      background: #e63946;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      color: #fff;
+      padding: 100px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-height: 480px;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-eyebrow { font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; color: #e63946; margin-bottom: 16px; }
+    .hero-headline { font-size: 3.2rem; font-weight: 800; line-height: 1.1; max-width: 600px; margin-bottom: 20px; }
+    .hero-sub { font-size: 1.1rem; color: #aab4c4; max-width: 500px; margin-bottom: 36px; line-height: 1.6; }
+    .hero-cta { display: flex; gap: 16px; }
+    .btn-primary { background: #e63946; color: #fff; padding: 14px 32px; border-radius: 4px; font-size: 1rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; }
+    .btn-secondary { background: transparent; color: #fff; padding: 14px 32px; border-radius: 4px; font-size: 1rem; font-weight: 600; text-decoration: none; border: 2px solid rgba(255,255,255,0.4); }
+    .hero-badge { position: absolute; top: 40px; right: 60px; background: #e63946; color: #fff; padding: 12px 20px; border-radius: 50%; width: 90px; height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; text-align: center; line-height: 1.2; }
+
+    /* PROMO STRIP */
+    .promo-strip {
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      padding: 20px 40px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .promo-item { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: #444; font-weight: 500; }
+    .promo-icon { font-size: 1.2rem; }
+
+    /* FEATURED CAMPAIGN BANNER */
+    .campaign-banner {
+      margin: 48px 40px;
+      background: linear-gradient(90deg, #0f3460, #533483);
+      color: #fff;
+      border-radius: 12px;
+      padding: 40px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .campaign-text h2 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+    .campaign-text p { color: #bbb; font-size: 1rem; }
+    .campaign-discount { font-size: 3.5rem; font-weight: 900; color: #ffd166; }
+
+    /* PRODUCTS */
+    .section { padding: 48px 40px; }
+    .section-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; }
+    .section-sub { color: #666; font-size: 0.95rem; margin-bottom: 32px; }
+    .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .product-card {
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .product-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .product-img { height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    .product-info { padding: 16px; }
+    .product-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+    .product-rating { color: #f4a261; font-size: 0.85rem; margin-bottom: 8px; }
+    .product-price { display: flex; align-items: baseline; gap: 8px; }
+    .price-current { font-size: 1.2rem; font-weight: 700; color: #1a1a1a; }
+    .price-original { font-size: 0.9rem; color: #999; text-decoration: line-through; }
+    .price-badge { background: #e63946; color: #fff; font-size: 0.75rem; font-weight: 700; padding: 2px 6px; border-radius: 3px; }
+    .add-to-cart { width: 100%; margin-top: 12px; background: #1a1a1a; color: #fff; border: none; padding: 10px; border-radius: 4px; font-size: 0.9rem; cursor: pointer; font-weight: 500; }
+    .add-to-cart:hover { background: #333; }
+
+    /* TRUST SECTION */
+    .trust-section {
+      background: #1a1a1a;
+      color: #fff;
+      padding: 60px 40px;
+      text-align: center;
+    }
+    .trust-section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 40px; }
+    .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 800px; margin: 0 auto; }
+    .trust-stat { }
+    .trust-number { font-size: 2.8rem; font-weight: 900; color: #e63946; }
+    .trust-label { font-size: 0.9rem; color: #aaa; margin-top: 6px; }
+
+    /* REVIEWS */
+    .reviews-section { padding: 48px 40px; background: #fafafa; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; }
+    .review-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; padding: 24px; }
+    .review-stars { color: #f4a261; font-size: 1rem; margin-bottom: 10px; }
+    .review-text { font-size: 0.9rem; color: #444; line-height: 1.6; margin-bottom: 12px; }
+    .review-author { font-size: 0.85rem; font-weight: 600; color: #1a1a1a; }
+    .review-product { font-size: 0.8rem; color: #888; }
+
+    /* FOOTER */
+    footer {
+      background: #111;
+      color: #aaa;
+      padding: 48px 40px 24px;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand h3 { color: #fff; font-size: 1.1rem; margin-bottom: 12px; }
+    .footer-brand p { font-size: 0.88rem; line-height: 1.6; }
+    .footer-col h4 { color: #fff; font-size: 0.9rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: #888; text-decoration: none; font-size: 0.88rem; }
+    .footer-bottom { border-top: 1px solid #222; padding-top: 24px; display: flex; justify-content: space-between; font-size: 0.82rem; }
+  </style>
+</head>
+<body>
+
+  <!-- ANNOUNCEMENT BAR (edit this between captures) -->
+  <div class="announcement-bar">
+    Free shipping on orders over $75 — Use code <strong>IRONCLAD20</strong> for 20% off
+  </div>
+
+  <!-- NAV BAR (structural — DeltaComparer skips) -->
+  <nav>
+    <div class="nav-logo">IRONCLAD OUTDOOR</div>
+    <ul class="nav-links">
+      <li><a href="#">Jackets</a></li>
+      <li><a href="#">Footwear</a></li>
+      <li><a href="#">Packs</a></li>
+      <li><a href="#">Gear</a></li>
+      <li><a href="#">Sale</a></li>
+    </ul>
+    <button class="nav-cta">Shop Now</button>
+  </nav>
+
+  <!-- HERO (main target for delta testing) -->
+  <section class="hero">
+    <div class="hero-eyebrow">Spring 2025 Collection</div>
+    <h1 class="hero-headline">Built for the Trail.<br>Made to Last.</h1>
+    <p class="hero-sub">
+      Lightweight alpine gear engineered for high-performance adventures.
+      From summit to basecamp — gear that keeps up.
+    </p>
+    <div class="hero-cta">
+      <a href="#" class="btn-primary">Shop the Collection</a>
+      <a href="#" class="btn-secondary">View Lookbook</a>
+    </div>
+    <div class="hero-badge">UP TO<br>40%<br>OFF</div>
+  </section>
+
+  <!-- PROMO STRIP -->
+  <div class="promo-strip">
+    <div class="promo-item"><span class="promo-icon">🚚</span> Free shipping over $75</div>
+    <div class="promo-item"><span class="promo-icon">↩️</span> 60-day returns</div>
+    <div class="promo-item"><span class="promo-icon">🛡️</span> Lifetime warranty</div>
+    <div class="promo-item"><span class="promo-icon">🌿</span> Carbon-neutral shipping</div>
+  </div>
+
+  <!-- CAMPAIGN BANNER (good delta target) -->
+  <div class="campaign-banner">
+    <div class="campaign-text">
+      <h2>Summit Series — Limited Drop</h2>
+      <p>15 new alpine styles. Only 200 units per colorway. This weekend only.</p>
+    </div>
+    <div class="campaign-discount">30% OFF</div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <section class="section">
+    <h2 class="section-title">Best Sellers</h2>
+    <p class="section-sub">Gear trusted by 50,000+ outdoor enthusiasts</p>
+    <div class="product-grid">
+
+      <div class="product-card">
+        <div class="product-img">🧥</div>
+        <div class="product-info">
+          <div class="product-name">Alpine Shell Jacket</div>
+          <div class="product-rating">★★★★★ (312)</div>
+          <div class="product-price">
+            <span class="price-current">$189</span>
+            <span class="price-original">$249</span>
+            <span class="price-badge">-24%</span>
+          </div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">🥾</div>
+        <div class="product-info">
+          <div class="product-name">Trail Pro Boot GTX</div>
+          <div class="product-rating">★★★★☆ (187)</div>
+          <div class="product-price">
+            <span class="price-current">$219</span>
+            <span class="price-original">$279</span>
+            <span class="price-badge">-22%</span>
+          </div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">🎒</div>
+        <div class="product-info">
+          <div class="product-name">Summit Pack 45L</div>
+          <div class="product-rating">★★★★★ (423)</div>
+          <div class="product-price">
+            <span class="price-current">$159</span>
+          </div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">🧤</div>
+        <div class="product-info">
+          <div class="product-name">Merino Base Layer Set</div>
+          <div class="product-rating">★★★★★ (98)</div>
+          <div class="product-price">
+            <span class="price-current">$89</span>
+            <span class="price-original">$119</span>
+            <span class="price-badge">-25%</span>
+          </div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRUST STATS -->
+  <div class="trust-section">
+    <h2>Trusted by the Outdoor Community</h2>
+    <div class="trust-grid">
+      <div class="trust-stat">
+        <div class="trust-number">50K+</div>
+        <div class="trust-label">Happy Customers</div>
+      </div>
+      <div class="trust-stat">
+        <div class="trust-number">4.8★</div>
+        <div class="trust-label">Average Rating</div>
+      </div>
+      <div class="trust-stat">
+        <div class="trust-number">12yr</div>
+        <div class="trust-label">In the Field</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <section class="reviews-section">
+    <h2 class="section-title">What Customers Say</h2>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The Alpine Shell held up through three days of rain on the PCT. Completely dry inside the whole time. Worth every penny."</p>
+        <div class="review-author">Marcus T.</div>
+        <div class="review-product">Alpine Shell Jacket</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Best trail boot I've owned in 15 years of hiking. The ankle support on scree is unreal. Just ordered a second pair."</p>
+        <div class="review-author">Sarah K.</div>
+        <div class="review-product">Trail Pro Boot GTX</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-text">"Summit Pack fits everything I need for a 3-day backcountry trip. Hip belt is super comfortable. Shipping was fast too."</p>
+        <div class="review-author">Daniel R.</div>
+        <div class="review-product">Summit Pack 45L</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER (structural — DeltaComparer skips) -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>IRONCLAD OUTDOOR</h3>
+        <p>Gear built for people who take the outdoors seriously. Designed in Colorado, tested on every trail.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#">Jackets</a></li>
+          <li><a href="#">Footwear</a></li>
+          <li><a href="#">Packs</a></li>
+          <li><a href="#">Sale</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Warranty</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Ironclad Outdoor Co. All rights reserved.</span>
+      <span>Privacy · Terms · Accessibility</span>
+    </div>
+  </footer>
+
+</body>
+</html>
