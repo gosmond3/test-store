@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smoke & Ember Sauce Co.</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1a1a1a; background: #fff; }
+
+    /* NAV */
+    nav {
+      background: #2b1a0e;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: #ccc; text-decoration: none; font-size: 0.9rem; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { background: #c0392b; color: #fff; border: none; padding: 8px 20px; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+
+    /* ANNOUNCEMENT BAR */
+    .announcement-bar {
+      background: #c0392b;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #2b1a0e 0%, #4a2512 60%, #7b3a1a 100%);
+      color: #fff;
+      padding: 100px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-height: 480px;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-eyebrow { font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; color: #f39c12; margin-bottom: 12px; }
+    .hero-campaign { display: inline-flex; align-items: center; gap: 8px; background: rgba(243,156,18,0.15); border: 1px solid rgba(243,156,18,0.5); color: #f39c12; font-size: 0.85rem; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.5px; }
+    .hero-campaign-dot { width: 6px; height: 6px; border-radius: 50%; background: #f39c12; display: inline-block; }
+    .hero-headline { font-size: 3.2rem; font-weight: 800; line-height: 1.1; max-width: 600px; margin-bottom: 20px; }
+    .hero-sub { font-size: 1.1rem; color: #c9a98a; max-width: 500px; margin-bottom: 36px; line-height: 1.6; }
+    .hero-cta { display: flex; gap: 16px; }
+    .btn-primary { background: #c0392b; color: #fff; padding: 14px 32px; border-radius: 4px; font-size: 1rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; }
+    .btn-secondary { background: transparent; color: #fff; padding: 14px 32px; border-radius: 4px; font-size: 1rem; font-weight: 600; text-decoration: none; border: 2px solid rgba(255,255,255,0.4); }
+    .hero-badge { position: absolute; top: 40px; right: 60px; background: #c0392b; color: #fff; padding: 12px 20px; border-radius: 50%; width: 90px; height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; text-align: center; line-height: 1.2; }
+
+    /* CAMPAIGN COUNTDOWN STRIP */
+    .campaign-strip {
+      background: #f39c12;
+      color: #2b1a0e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 14px 40px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .campaign-strip-label { text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; }
+    .campaign-strip-timer { display: flex; gap: 12px; }
+    .timer-block { display: flex; flex-direction: column; align-items: center; }
+    .timer-value { font-size: 1.6rem; font-weight: 900; line-height: 1; }
+    .timer-unit { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; opacity: 0.7; }
+    .timer-sep { font-size: 1.4rem; font-weight: 900; line-height: 1; padding-top: 2px; }
+
+    /* PROMO STRIP */
+    .promo-strip {
+      background: #f9f3ed;
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      padding: 20px 40px;
+      border-bottom: 1px solid #e8d9cc;
+    }
+    .promo-item { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: #444; font-weight: 500; }
+    .promo-icon { font-size: 1.2rem; }
+
+    /* FEATURED CAMPAIGN BANNER */
+    .campaign-banner {
+      margin: 48px 40px;
+      background: linear-gradient(90deg, #2b1a0e, #7b3a1a);
+      color: #fff;
+      border-radius: 12px;
+      padding: 40px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .campaign-text h2 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+    .campaign-text p { color: #c9a98a; font-size: 1rem; }
+    .campaign-discount { font-size: 3.5rem; font-weight: 900; color: #f39c12; }
+
+    /* PRODUCTS */
+    .section { padding: 48px 40px; }
+    .section-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; }
+    .section-sub { color: #666; font-size: 0.95rem; margin-bottom: 32px; }
+    .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .product-card {
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .product-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .product-img { height: 200px; background: #f9f3ed; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    .product-info { padding: 16px; }
+    .product-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+    .product-rating { color: #f39c12; font-size: 0.85rem; margin-bottom: 8px; }
+    .product-price { display: flex; align-items: baseline; gap: 8px; }
+    .price-current { font-size: 1.2rem; font-weight: 700; color: #1a1a1a; }
+    .price-original { font-size: 0.9rem; color: #999; text-decoration: line-through; }
+    .price-badge { background: #c0392b; color: #fff; font-size: 0.75rem; font-weight: 700; padding: 2px 6px; border-radius: 3px; }
+    .add-to-cart { width: 100%; margin-top: 12px; background: #2b1a0e; color: #fff; border: none; padding: 10px; border-radius: 4px; font-size: 0.9rem; cursor: pointer; font-weight: 500; }
+    .add-to-cart:hover { background: #4a2512; }
+
+    /* TRUST SECTION */
+    .trust-section {
+      background: #2b1a0e;
+      color: #fff;
+      padding: 60px 40px;
+      text-align: center;
+    }
+    .trust-section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 40px; }
+    .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 800px; margin: 0 auto; }
+    .trust-stat { }
+    .trust-number { font-size: 2.8rem; font-weight: 900; color: #c0392b; }
+    .trust-label { font-size: 0.9rem; color: #c9a98a; margin-top: 6px; }
+
+    /* REVIEWS */
+    .reviews-section { padding: 48px 40px; background: #fafafa; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; }
+    .review-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; padding: 24px; }
+    .review-stars { color: #f39c12; font-size: 1rem; margin-bottom: 10px; }
+    .review-text { font-size: 0.9rem; color: #444; line-height: 1.6; margin-bottom: 12px; }
+    .review-author { font-size: 0.85rem; font-weight: 600; color: #1a1a1a; }
+    .review-product { font-size: 0.8rem; color: #888; }
+
+    /* FOOTER */
+    footer {
+      background: #1a0e07;
+      color: #aaa;
+      padding: 48px 40px 24px;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand h3 { color: #fff; font-size: 1.1rem; margin-bottom: 12px; }
+    .footer-brand p { font-size: 0.88rem; line-height: 1.6; }
+    .footer-col h4 { color: #fff; font-size: 0.9rem; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: #888; text-decoration: none; font-size: 0.88rem; }
+    .footer-bottom { border-top: 1px solid #2b1a0e; padding-top: 24px; display: flex; justify-content: space-between; font-size: 0.82rem; }
+  </style>
+</head>
+<body>
+
+  <!-- ANNOUNCEMENT BAR (edit this between captures) -->
+  <div class="announcement-bar">
+    Small-batch BBQ sauce, crafted in Austin. Free shipping on orders over $40. Use code <strong>SMOKE10</strong>
+  </div>
+
+  <!-- NAV BAR (structural — DeltaComparer skips) -->
+  <nav>
+    <div class="nav-logo">SMOKE & EMBER</div>
+    <ul class="nav-links">
+      <li><a href="#">Sauces</a></li>
+      <li><a href="#">Rubs</a></li>
+      <li><a href="#">Bundles</a></li>
+      <li><a href="#">Recipes</a></li>
+      <li><a href="#">Sale</a></li>
+    </ul>
+    <button class="nav-cta">Shop Now</button>
+  </nav>
+
+  <!-- HERO (main target for delta testing) -->
+  <section class="hero">
+    <div class="hero-eyebrow">Small-Batch BBQ Sauce — Crafted in Austin, TX</div>
+    <h1 class="hero-headline">Low & Slow.<br>Born in Smoke.</h1>
+    <p class="hero-sub">
+      Real wood smoke, real ingredients, no shortcuts. Every bottle is small-batch brewed and hand-labeled in our Austin kitchen.
+    </p>
+    <div class="hero-cta">
+      <a href="#" class="btn-primary">Shop the Sauces</a>
+      <a href="#" class="btn-secondary">Our Story</a>
+    </div>
+  </section>
+
+  <!-- PROMO STRIP -->
+  <div class="promo-strip">
+    <div class="promo-item"><span class="promo-icon">🚚</span> Free shipping over $40</div>
+    <div class="promo-item"><span class="promo-icon">🔥</span> Small-batch brewed weekly</div>
+    <div class="promo-item"><span class="promo-icon">🌶️</span> No artificial anything</div>
+    <div class="promo-item"><span class="promo-icon">⭐</span> 4.9 stars — 3,200+ reviews</div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <section class="section">
+    <h2 class="section-title">Best Sellers</h2>
+    <p class="section-sub">Sauces and rubs trusted at backyard pits and competition smokers alike</p>
+    <div class="product-grid">
+
+      <div class="product-card">
+        <div class="product-img">🍖</div>
+        <div class="product-info">
+          <div class="product-name">Original Smokehouse Sauce</div>
+          <div class="product-rating">★★★★★ (1,204)</div>
+          <div class="product-price">
+            <span class="price-current">$12.99</span>
+          </div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">🌶️</div>
+        <div class="product-info">
+          <div class="product-name">Habanero Heat Sauce</div>
+          <div class="product-rating">★★★★★ (876)</div>
+          <div class="product-price">
+            <span class="price-current">$13.99</span>
+          </div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">🍯</div>
+        <div class="product-info">
+          <div class="product-name">Honey Bourbon Glaze</div>
+          <div class="product-rating">★★★★★ (643)</div>
+          <div class="product-price">
+            <span class="price-current">$14.99</span>
+            <span class="price-original">$17.99</span>
+            <span class="price-badge">-17%</span>
+          </div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">🧂</div>
+        <div class="product-info">
+          <div class="product-name">Brisket Dry Rub — 8oz</div>
+          <div class="product-rating">★★★★☆ (412)</div>
+          <div class="product-price">
+            <span class="price-current">$9.99</span>
+          </div>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRUST STATS -->
+  <div class="trust-section">
+    <h2>Trusted at Pits Across America</h2>
+    <div class="trust-grid">
+      <div class="trust-stat">
+        <div class="trust-number">3.2K+</div>
+        <div class="trust-label">Five-Star Reviews</div>
+      </div>
+      <div class="trust-stat">
+        <div class="trust-number">4.9★</div>
+        <div class="trust-label">Average Rating</div>
+      </div>
+      <div class="trust-stat">
+        <div class="trust-number">8yr</div>
+        <div class="trust-label">Brewing in Austin</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <section class="reviews-section">
+    <h2 class="section-title">What Pitmasters Say</h2>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I've been competing in BBQ circuits for 12 years and this is the only store-bought sauce I'll put on my ribs. Smoke depth is unreal."</p>
+        <div class="review-author">Ray D.</div>
+        <div class="review-product">Original Smokehouse Sauce</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The Honey Bourbon Glaze on chicken thighs changed my life. I order four bottles at a time so I never run out."</p>
+        <div class="review-author">Tanya M.</div>
+        <div class="review-product">Honey Bourbon Glaze</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Habanero Heat is legit hot but the flavor still comes through. Most hot sauces just taste like pain. This one tastes like BBQ."</p>
+        <div class="review-author">Jordan K.</div>
+        <div class="review-product">Habanero Heat Sauce</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER (structural — DeltaComparer skips) -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>SMOKE & EMBER SAUCE CO.</h3>
+        <p>Small-batch BBQ sauces brewed weekly in Austin, TX. Real smoke. Real ingredients. No shortcuts.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#">Sauces</a></li>
+          <li><a href="#">Rubs</a></li>
+          <li><a href="#">Bundles</a></li>
+          <li><a href="#">Sale</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Our Kitchen</a></li>
+          <li><a href="#">Wholesale</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Smoke & Ember Sauce Co. All rights reserved.</span>
+      <span>Privacy · Terms · Accessibility</span>
+    </div>
+  </footer>
+
+</body>
+</html>
